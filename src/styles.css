@@ -1,0 +1,21 @@
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { margin: 0; }
+@keyframes popIn { 0% { transform: scale(.8); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Pressable: mirrors the prototype's style-active (transform on press) */
+.press:active { transform: scale(.99); }
+.press-985:active { transform: scale(.985); }
+.press-98:active { transform: scale(.98); }
+
+/* Theory toggle header press feedback */
+.theory-toggle:active { background: #ECE9FC; }
+
+/* O/X answer buttons press feedback */
+.ans-o:active { border-color: #2563EB; background: #F4F8FF; }
+.ans-x:active { border-color: #EF4444; background: #FEF4F4; }
+
+/* Worksheet interactive elements press feedback */
+.ws-blank-default:active { border-color: #4F46E5; color: #4F46E5; }
+.ws-opt:active { background: #F1F3F8; }
+.ws-reset:active { background: #F1F3F8; color: #5A6172; }

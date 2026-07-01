@@ -1,0 +1,20 @@
+{
+  "name": "financial-accounting-quiz",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "재무회계 OX 퀴즈 · 빈칸 워크시트 학습 앱",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.11"
+  }
+}
