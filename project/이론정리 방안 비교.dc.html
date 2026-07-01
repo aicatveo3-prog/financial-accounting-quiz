@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; font-family: "Pretendard", -apple-system, sans-serif; }
+</style>
+</helmet>
+
+<!-- ===================== FRAME A ===================== -->
+<div style="position: absolute; left: 60px; top: 120px; width: 392px;">
+  <div data-drags-parent="1" style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 14px; cursor: grab;">
+    <div style="font-size: 15px; font-weight: 800; color: #1A1D24;">방안 A · 파트별 "이론 먼저, 퀴즈 나중"</div>
+  </div>
+  <div data-drags-parent="1" style="font-size: 12.5px; color: #5C6473; margin-bottom: 16px; line-height: 1.5; max-width: 360px;">각 파트 문제 화면 맨 위에 접이식 이론 카드. 펼쳐 읽고 → 바로 아래에서 OX로 자가진단. 학습 흐름이 가장 자연스럽다. <span style="color:#4F46E5; font-weight:700;">(아래는 펼친 상태)</span></div>
+
+  <div style="background: #fff; border-radius: 26px; box-shadow: 0 12px 40px rgba(30,35,50,.16); overflow: hidden; border: 1px solid #ECEFF4;">
+    <div style="height: 760px; overflow: hidden; display: flex; flex-direction: column; background: #F7F8FB;">
+      <!-- top bar -->
+      <div style="padding: 16px 18px 12px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #ECEFF4; background: #F7F8FB;">
+        <div style="background: #EAEDF3; width: 32px; height: 32px; border-radius: 9px; font-size: 15px; color: #5A6172; display: flex; align-items: center; justify-content: center;">‹</div>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 12.5px; font-weight: 700; color: #1A1D24;">재무회계 챕터3 (개념체계)</div>
+          <div style="font-size: 11.5px; color: #5C6473; margin-top: 2px;">PART 4 · 목적적합성</div>
+        </div>
+        <div style="font-size: 12px; font-weight: 800; color: #4F46E5;">2 / 9</div>
+      </div>
+
+      <div style="flex: 1; overflow: hidden; padding: 14px 16px;">
+        <!-- THEORY CARD expanded -->
+        <div style="background: #fff; border: 1.5px solid #DDD7F7; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 14px rgba(79,70,229,.07);">
+          <div style="display: flex; align-items: center; gap: 9px; padding: 14px 16px; background: #F3F1FE;">
+            <div style="width: 26px; height: 26px; border-radius: 8px; background: #4F46E5; color: #fff; font-size: 14px; display: flex; align-items: center; justify-content: center;">📖</div>
+            <div style="flex: 1; font-size: 13.5px; font-weight: 800; color: #312A6B;">이론 — 목적적합성</div>
+            <div style="font-size: 16px; color: #6B61C9; transform: rotate(180deg);">⌃</div>
+          </div>
+          <div style="padding: 4px 16px 16px;">
+            <div style="font-size: 12.5px; color: #4A4170; background: #F7F6FD; border-radius: 10px; padding: 11px 13px; line-height: 1.55; font-weight: 600; margin: 8px 0 14px;">정보이용자의 의사결정에 <b style="color:#4F46E5;">차이를 일으키는</b> 정보능력</div>
+            <div style="display: flex; flex-direction: column; gap: 11px;">
+              <div style="display: flex; gap: 9px;"><div style="flex-shrink:0; width:18px; height:18px; border-radius:6px; background:#EDEAFB; color:#4F46E5; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:1px;">1</div><div style="font-size:12.5px; color:#2C3140; line-height:1.5;"><b>예측가치</b>·<b>확인가치</b> 중 하나라도 있으면 목적적합. 둘은 상호 연관.</div></div>
+              <div style="display: flex; gap: 9px;"><div style="flex-shrink:0; width:18px; height:18px; border-radius:6px; background:#EDEAFB; color:#4F46E5; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:1px;">2</div><div style="font-size:12.5px; color:#2C3140; line-height:1.5;">예측가치 → 그 자체가 예측치일 <b>필요는 없다.</b></div></div>
+              <div style="display: flex; gap: 9px;"><div style="flex-shrink:0; width:18px; height:18px; border-radius:6px; background:#EDEAFB; color:#4F46E5; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center; margin-top:1px;">3</div><div style="font-size:12.5px; color:#2C3140; line-height:1.5;"><b>중요성</b> = 목적적합성의 하부속성. 성격·규모로 판단, 획일적 임계치 못 정함.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size: 11.5px; font-weight: 800; color: #6E7585; letter-spacing: .04em; margin: 20px 4px 10px;">OX 문제</div>
+
+        <!-- question 1 -->
+        <div style="background: #fff; border-radius: 14px; padding: 15px 16px; border: 1px solid #ECEFF4; display: flex; gap: 12px; margin-bottom: 10px;">
+          <div style="font-size: 12.5px; color: #2C3140; line-height: 1.5; flex: 1;">목적적합한 재무정보는 정보이용자의 의사결정에 차이가 나도록 할 수 있다.</div>
+          <div style="flex-shrink: 0; display: flex; gap: 6px; align-items: flex-start;">
+            <div style="width: 34px; height: 32px; border: 1.5px solid #DDE3EF; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><span style="width:13px; height:13px; border-radius:50%; border:2.5px solid #2563EB;"></span></div>
+            <div style="width: 34px; height: 32px; border: 1.5px solid #DDE3EF; border-radius: 8px; display: flex; align-items: center; justify-content: center; color:#DB4D4D; font-size:15px; font-weight:800;">✕</div>
+          </div>
+        </div>
+        <!-- question 2 -->
+        <div style="background: #fff; border-radius: 14px; padding: 15px 16px; border: 1px solid #ECEFF4; display: flex; gap: 12px;">
+          <div style="font-size: 12.5px; color: #2C3140; line-height: 1.5; flex: 1;">중요성은 표현충실성을 갖추기 위한 하부 요소이다.</div>
+          <div style="flex-shrink: 0; display: flex; gap: 6px; align-items: flex-start;">
+            <div style="width: 34px; height: 32px; border: 1.5px solid #DDE3EF; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><span style="width:13px; height:13px; border-radius:50%; border:2.5px solid #2563EB;"></span></div>
+            <div style="width: 34px; height: 32px; border: 1.5px solid #DDE3EF; border-radius: 8px; display: flex; align-items: center; justify-content: center; color:#DB4D4D; font-size:15px; font-weight:800;">✕</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== FRAME B ===================== -->
+<div style="position: absolute; left: 540px; top: 120px; width: 392px;">
+  <div data-drags-parent="1" style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 14px; cursor: grab;">
+    <div style="font-size: 15px; font-weight: 800; color: #1A1D24;">방안 B · 목록에 "이론 / OX퀴즈" 탭</div>
+  </div>
+  <div data-drags-parent="1" style="font-size: 12.5px; color: #5C6473; margin-bottom: 16px; line-height: 1.5; max-width: 360px;">파트 목록 상단에서 탭 전환. 각 파트를 이론 페이지로도 / 퀴즈로도 진입. 교재처럼 쭉 정독하기 좋다. <span style="color:#4F46E5; font-weight:700;">(아래는 이론 탭)</span></div>
+
+  <div style="background: #fff; border-radius: 26px; box-shadow: 0 12px 40px rgba(30,35,50,.16); overflow: hidden; border: 1px solid #ECEFF4;">
+    <div style="height: 760px; overflow: hidden; display: flex; flex-direction: column; background: #F7F8FB;">
+      <div style="padding: 18px 20px 0; flex-shrink: 0;">
+        <div style="display:flex; align-items:center; gap:6px; color:#5C6473; font-size:12.5px; margin-bottom:12px;">‹ 홈</div>
+        <div style="font-size: 18px; font-weight: 800; color: #1A1D24;">재무회계 챕터3 (개념체계)</div>
+        <div style="font-size: 12.5px; color: #5C6473; margin-top: 4px;">16개 파트 · 5개 챕터</div>
+        <!-- TAB -->
+        <div style="display: flex; gap: 4px; background: #EAEDF3; border-radius: 12px; padding: 4px; margin-top: 16px;">
+          <div style="flex: 1; text-align: center; font-size: 13px; font-weight: 800; color: #4F46E5; background: #fff; border-radius: 9px; padding: 9px 0; box-shadow: 0 1px 4px rgba(0,0,0,.06);">📖 이론</div>
+          <div style="flex: 1; text-align: center; font-size: 13px; font-weight: 700; color: #5A6172; padding: 9px 0;">OX 퀴즈</div>
+        </div>
+      </div>
+
+      <div style="flex: 1; overflow: hidden; padding: 16px 14px;">
+        <div style="font-size: 11px; font-weight: 800; color: #A4ABBA; letter-spacing: .05em; margin: 0 6px 8px;">CHAPTER 1 · 개념체계 목적</div>
+        <div style="background:#fff; border-radius:14px; border:1px solid #ECEFF4; overflow:hidden; margin-bottom:16px;">
+          <div style="display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid #F1F3F8;"><div style="width:26px;height:26px;border-radius:8px;background:#F3F1FE;color:#4F46E5;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;">1</div><div style="flex:1;font-size:13px;font-weight:700;color:#1A1D24;">개념체계의 성격과 지위</div><div style="color:#C2C8D2;font-size:16px;">›</div></div>
+          <div style="display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid #F1F3F8;"><div style="width:26px;height:26px;border-radius:8px;background:#F3F1FE;color:#4F46E5;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;">2</div><div style="flex:1;font-size:13px;font-weight:700;color:#1A1D24;">기본가정 — 계속기업</div><div style="color:#C2C8D2;font-size:16px;">›</div></div>
+          <div style="display:flex; align-items:center; gap:12px; padding:14px 16px;"><div style="width:26px;height:26px;border-radius:8px;background:#F3F1FE;color:#4F46E5;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;">3</div><div style="flex:1;font-size:13px;font-weight:700;color:#1A1D24;">일반목적재무보고</div><div style="color:#C2C8D2;font-size:16px;">›</div></div>
+        </div>
+        <div style="font-size: 11px; font-weight: 800; color: #A4ABBA; letter-spacing: .05em; margin: 0 6px 8px;">CHAPTER 2 · 질적 특성</div>
+        <div style="background:#fff; border-radius:14px; border:1px solid #ECEFF4; overflow:hidden;">
+          <div style="display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid #F1F3F8;"><div style="width:26px;height:26px;border-radius:8px;background:#F3F1FE;color:#4F46E5;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;">4</div><div style="flex:1;font-size:13px;font-weight:700;color:#1A1D24;">목적적합성</div><div style="color:#C2C8D2;font-size:16px;">›</div></div>
+          <div style="display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid #F1F3F8;"><div style="width:26px;height:26px;border-radius:8px;background:#F3F1FE;color:#4F46E5;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;">5</div><div style="flex:1;font-size:13px;font-weight:700;color:#1A1D24;">표현충실성</div><div style="color:#C2C8D2;font-size:16px;">›</div></div>
+          <div style="display:flex; align-items:center; gap:12px; padding:14px 16px;"><div style="width:26px;height:26px;border-radius:8px;background:#F3F1FE;color:#4F46E5;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;">6</div><div style="flex:1;font-size:13px;font-weight:700;color:#1A1D24;">보강적 특성</div><div style="color:#C2C8D2;font-size:16px;">›</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== FRAME C ===================== -->
+<div style="position: absolute; left: 1020px; top: 120px; width: 820px;">
+  <div data-drags-parent="1" style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 14px; cursor: grab;">
+    <div style="font-size: 15px; font-weight: 800; color: #1A1D24;">방안 C · 홈에 "이론 정리" 입구 + 정독 화면</div>
+  </div>
+  <div data-drags-parent="1" style="font-size: 12.5px; color: #5C6473; margin-bottom: 16px; line-height: 1.5; max-width: 560px;">퀴즈와 별개의 "이론 정리" 입구. 시험 직전 요약 노트처럼 전체를 쭉 훑는 정독 모드. 동선은 퀴즈와 분리됨.</div>
+
+  <div style="display: flex; gap: 40px;">
+    <!-- phone 1: home -->
+    <div style="width: 372px;">
+      <div style="background: #fff; border-radius: 26px; box-shadow: 0 12px 40px rgba(30,35,50,.16); overflow: hidden; border: 1px solid #ECEFF4;">
+        <div style="height: 720px; overflow: hidden; background: #F7F8FB; padding: 36px 22px 0;">
+          <div style="font-size: 12px; font-weight: 700; color: #6E7585; letter-spacing: .03em;">학습 퀴즈</div>
+          <div style="font-size: 30px; font-weight: 800; color: #1A1D24; margin-top: 6px;">재무회계</div>
+          <div style="font-size: 13px; color: #5C6473; margin-top: 6px;">O/X 문제와 이론으로 핵심 개념 점검</div>
+
+          <div style="font-size: 12px; font-weight: 700; color: #6E7585; margin: 26px 0 12px 2px;">목록</div>
+          <!-- OX card -->
+          <div style="background:#fff; border-radius:20px; padding:18px; box-shadow:0 6px 20px rgba(30,35,50,.06); margin-bottom:12px;">
+            <div style="display:flex; gap:14px; align-items:flex-start;">
+              <div style="width:46px;height:46px;border-radius:14px;background:#4F46E5;color:#fff;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+              <div style="flex:1;">
+                <div style="font-size:15px;font-weight:800;color:#1A1D24;">OX 퀴즈</div>
+                <div style="font-size:12px;color:#5C6473;margin-top:3px;">16개 파트 · 124문제</div>
+              </div>
+              <div style="color:#C2C8D2;font-size:18px;">›</div>
+            </div>
+          </div>
+          <!-- Theory card -->
+          <div style="background:#fff; border-radius:20px; padding:18px; box-shadow:0 6px 20px rgba(30,35,50,.06); border:1.5px solid #DDD7F7;">
+            <div style="display:flex; gap:14px; align-items:flex-start;">
+              <div style="width:46px;height:46px;border-radius:14px;background:#F3F1FE;color:#4F46E5;font-size:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">📖</div>
+              <div style="flex:1;">
+                <div style="font-size:15px;font-weight:800;color:#1A1D24;">이론 정리</div>
+                <div style="font-size:12px;color:#5C6473;margin-top:3px;">5개 챕터 · 개념체계 요약 노트</div>
+              </div>
+              <div style="color:#C2C8D2;font-size:18px;">›</div>
+            </div>
+          </div>
+          <div style="text-align:center; font-size:11.5px; color:#B8BEC9; margin-top:140px;">탭하여 학습을 시작하세요</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- phone 2: reading -->
+    <div style="width: 372px;">
+      <div style="background: #fff; border-radius: 26px; box-shadow: 0 12px 40px rgba(30,35,50,.16); overflow: hidden; border: 1px solid #ECEFF4;">
+        <div style="height: 720px; overflow: hidden; background: #fff; display: flex; flex-direction: column;">
+          <div style="padding: 18px 20px 14px; border-bottom: 1px solid #F1F3F8; display:flex; align-items:center; gap:12px; background:#F7F8FB;">
+            <div style="background:#EAEDF3; width:32px; height:32px; border-radius:9px; font-size:15px; color:#5A6172; display:flex; align-items:center; justify-content:center;">‹</div>
+            <div style="flex:1;"><div style="font-size:13px; font-weight:800; color:#1A1D24;">CHAPTER 2</div><div style="font-size:11.5px; color:#5C6473; margin-top:2px;">유용한 재무정보의 질적 특성</div></div>
+          </div>
+          <div style="flex:1; overflow:hidden; padding: 18px 20px;">
+            <div style="background:#F7F6FD; border-radius:12px; padding:14px 15px; margin-bottom:18px;">
+              <div style="font-size:11px; font-weight:800; color:#4F46E5; letter-spacing:.04em; margin-bottom:8px;">한눈에 구조</div>
+              <div style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:#2C3140; line-height:1.5;">
+                <div><b style="color:#4F46E5;">근본적</b> · 목적적합성, 표현충실성</div>
+                <div><b style="color:#4F46E5;">보강적</b> · 비교·검증·적시·이해가능성</div>
+                <div><b style="color:#4F46E5;">제약요인</b> · 원가</div>
+              </div>
+            </div>
+
+            <div style="font-size:14px; font-weight:800; color:#1A1D24; margin-bottom:6px;">2-1. 근본적 질적 특성</div>
+            <div style="font-size:12.5px; color:#4A4F5C; line-height:1.6; margin-bottom:16px;">정보가 유용하려면 <b style="color:#1A1D24;">반드시 갖추어야</b> 할 특성. 목적적합성과 표현충실성 두 가지로 구성된다.</div>
+
+            <div style="border-left:3px solid #4F46E5; padding-left:12px; margin-bottom:14px;">
+              <div style="font-size:13px; font-weight:800; color:#1A1D24; margin-bottom:4px;">목적적합성</div>
+              <div style="font-size:12.5px; color:#4A4F5C; line-height:1.6;">의사결정에 <b>차이를 일으키는</b> 능력. 예측가치·확인가치로 구성되며 둘은 상호 연관된다.</div>
+            </div>
+            <div style="border-left:3px solid #4F46E5; padding-left:12px;">
+              <div style="font-size:13px; font-weight:800; color:#1A1D24; margin-bottom:4px;">표현충실성</div>
+              <div style="font-size:12.5px; color:#4A4F5C; line-height:1.6;">서술이 <b>완전</b>하고 <b>중립적</b>이며 <b>오류가 없어야</b> 한다.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>

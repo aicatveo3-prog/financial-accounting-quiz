@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#4F46E5">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#4F46E5"/>
+    <circle cx="470" cy="400" r="120" fill="none" stroke="#ffffff" stroke-width="34"/>
+    <g stroke="#ffffff" stroke-width="34" stroke-linecap="round">
+      <line x1="660" y1="300" x2="840" y2="500"/>
+      <line x1="840" y1="300" x2="660" y2="500"/>
+    </g>
+  </svg>
+</template>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; }
+  @keyframes popIn { 0% { transform: scale(.8); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes slideUp { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; background: #EEF1F6; display: flex; justify-content: center; font-family: Pretendard, -apple-system, sans-serif; color: #1A1D24;">
+<div style="width: 100%; max-width: 460px; min-height: 100vh; background: #F7F8FB; display: flex; flex-direction: column; box-shadow: 0 0 40px rgba(20,25,40,.08);">
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+      <div style="padding: 56px 24px 28px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: .04em; color: #5C6473;">학습 퀴즈</div>
+        <div style="font-size: 22px; font-weight: 800; margin-top: 8px; line-height: 1.3;">재무회계</div>
+        <div style="font-size: 14px; color: #434A59; margin-top: 6px;">O/X 문제로 핵심 개념을 빠르게 점검해요</div>
+      </div>
+
+      <div style="padding: 0 16px 24px;">
+        <div style="font-size: 12px; font-weight: 700; color: #6E7585; letter-spacing: .03em; padding: 0 8px 10px;">목록</div>
+
+        <button onClick="{{ enterChapter }}" style="width: 100%; text-align: left; border: none; cursor: pointer; background: #FFFFFF; border-radius: 20px; padding: 20px; box-shadow: 0 6px 20px rgba(30,40,70,.06); display: flex; flex-direction: column; gap: 16px; font-family: inherit;" style-active="transform: scale(.985)">
+          <div style="display: flex; align-items: flex-start; gap: 14px;">
+            <div style="width: 46px; height: 46px; border-radius: 14px; background: #4F46E5; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #fff;">3</div>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 15.5px; font-weight: 700; line-height: 1.35; color: #1A1D24;">재무회계 챕터3 (개념체계)</div>
+              <div style="font-size: 13px; color: #5C6473; margin-top: 4px;">{{ partCount }}개 파트 · {{ totalCount }}문제 · O/X</div>
+            </div>
+            <div style="color: #C2C8D4; font-size: 22px; align-self: center;">›</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="flex: 1; height: 6px; background: #ECEFF4; border-radius: 99px; overflow: hidden;">
+              <div style="height: 100%; background: #4F46E5; border-radius: 99px; width: {{ overallPct }}%;"></div>
+            </div>
+            <div style="font-size: 12px; font-weight: 700; color: #AEB5C4; flex-shrink: 0;">{{ overallAnsweredText }}</div>
+          </div>
+        </button>
+      </div>
+
+      <div style="margin-top: auto; padding: 16px 24px 28px; text-align: center; font-size: 12px; color: #B4BAC8;">탭하여 문제 풀기를 시작하세요</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isToc }}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+      <div style="padding: 20px 20px 14px; flex-shrink: 0; position: sticky; top: 0; background: #F7F8FB; z-index: 5;">
+        <button onClick="{{ goHome }}" style="border: none; background: transparent; padding: 0; display: flex; align-items: center; gap: 6px; color: #5C6473; font-size: 12.5px; cursor: pointer; font-family: inherit;">‹ 목록</button>
+        <div style="font-size: 18px; font-weight: 800; margin-top: 12px; color: #1A1D24;">재무회계 챕터3 (개념체계)</div>
+        <div style="font-size: 12.5px; color: #5C6473; margin-top: 4px;">총 {{ partCount }}개 파트 · {{ totalCount }}문제 · {{ chapterDoneText }}</div>
+      </div>
+
+      <div style="flex: 1; padding: 2px 14px 14px;">
+        <sc-for list="{{ tocParts }}" as="p" hint-placeholder-count="8">
+          <button onClick="{{ p.open }}" style="width: 100%; text-align: left; border: none; cursor: pointer; display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 14px; padding: 13px 14px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(30,40,70,.04); font-family: inherit;" style-active="transform: scale(.99)">
+            <sc-if value="{{ p.isDone }}" hint-placeholder-val="{{ false }}">
+              <div style="width: 30px; height: 30px; border-radius: 9px; background: #E8F8EF; color: #15803D; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">{{ p.num }}</div>
+            </sc-if>
+            <sc-if value="{{ p.isActive }}" hint-placeholder-val="{{ false }}">
+              <div style="width: 30px; height: 30px; border-radius: 9px; background: #4F46E5; color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">{{ p.num }}</div>
+            </sc-if>
+            <sc-if value="{{ p.isTodo }}" hint-placeholder-val="{{ true }}">
+              <div style="width: 30px; height: 30px; border-radius: 9px; background: #EEF1F6; color: #5A6172; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">{{ p.num }}</div>
+            </sc-if>
+            <div style="flex: 1; min-width: 0;">
+              <div style="font-size: 13.5px; font-weight: 700; color: #1A1D24; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ p.title }}</div>
+              <div style="display: flex; align-items: center; gap: 8px; margin-top: 6px;">
+                <div style="flex: 1; height: 4px; background: #ECEFF4; border-radius: 99px; overflow: hidden;"><div style="height: 100%; background: #4F46E5; border-radius: 99px; width: {{ p.pct }}%;"></div></div>
+                <div style="font-size: 10.5px; font-weight: 700; color: #AEB5C4; flex-shrink: 0;">{{ p.progressText }}</div>
+              </div>
+            </div>
+            <sc-if value="{{ p.isDone }}" hint-placeholder-val="{{ false }}">
+              <span style="color: #15803D; font-size: 14px; flex-shrink: 0;">✓</span>
+            </sc-if>
+            <sc-if value="{{ p.isActive }}" hint-placeholder-val="{{ false }}">
+              <span style="color: #4F46E5; font-size: 18px; flex-shrink: 0;">›</span>
+            </sc-if>
+            <sc-if value="{{ p.isTodo }}" hint-placeholder-val="{{ true }}">
+              <span style="color: #C2C8D4; font-size: 18px; flex-shrink: 0;">›</span>
+            </sc-if>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="padding: 12px 18px 22px; position: sticky; bottom: 0; background: linear-gradient(to top, #F7F8FB 72%, transparent);">
+        <button onClick="{{ showResult }}" style="width: 100%; border: 1.5px solid #DDE3EF; background: #fff; color: #5A6172; font-size: 14.5px; font-weight: 700; padding: 14px; border-radius: 12px; cursor: pointer; font-family: inherit;" style-active="transform: scale(.99)">전체 결과 보기</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isQuiz }}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+      <div style="padding: 14px 18px 12px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #ECEFF4; position: sticky; top: 0; background: #F7F8FB; z-index: 5;">
+        <button onClick="{{ goToc }}" style="border: none; background: #EAEDF3; width: 32px; height: 32px; border-radius: 9px; font-size: 15px; color: #5A6172; cursor: pointer; flex-shrink: 0; font-family: inherit;">‹</button>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 12.5px; font-weight: 700; color: #1A1D24; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">재무회계 챕터3 (개념체계)</div>
+          <div style="font-size: 10.5px; color: #6E7585; margin-top: 1px;">{{ partProgress }}</div>
+        </div>
+        <div style="font-size: 11px; font-weight: 700; color: #5C6473; flex-shrink: 0;">{{ answeredText }}</div>
+      </div>
+
+      <div style="height: 4px; background: #E4E8F0; flex-shrink: 0;">
+        <div style="height: 100%; background: #4F46E5; width: {{ progressPercent }}%; transition: width .35s cubic-bezier(.4,0,.2,1);"></div>
+      </div>
+
+      <div style="padding: 20px 18px 6px;">
+        <div style="font-size: 11px; font-weight: 700; color: #6E7585; letter-spacing: .03em;">{{ partLabel }}</div>
+        <div style="font-size: 16px; font-weight: 800; margin-top: 4px; color: #1A1D24; word-break: keep-all;">{{ partTitle }}</div>
+      </div>
+
+      <div style="padding: 4px 18px 12px; flex: 1;">
+        <sc-for list="{{ partQuestions }}" as="q" hint-placeholder-count="5">
+          <div style="border-bottom: 1px solid #ECEFF4; padding: 13px 0;">
+            <div style="display: flex; gap: 10px; align-items: flex-start;">
+              <div style="font-size: 11px; font-weight: 800; color: #C2C8D4; flex-shrink: 0; width: 18px; padding-top: 2px;">{{ q.gLabel }}</div>
+              <div style="flex: 1; min-width: 0; font-size: 13.5px; line-height: 1.55; color: #14171D; word-break: keep-all; text-wrap: pretty;">{{ q.text }}</div>
+              <div style="flex-shrink: 0; display: flex; gap: 6px; align-items: center; padding-top: 1px;">
+                <sc-if value="{{ q.notAnswered }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ q.answerO }}" style="width: 34px; height: 32px; border: 1.5px solid #DDE3EF; background: #fff; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: inherit;" style-active="border-color: #2563EB; background: #F4F8FF">
+                    <span style="width: 13px; height: 13px; border-radius: 50%; border: 2.5px solid #2563EB; display: block;"></span>
+                  </button>
+                  <button onClick="{{ q.answerX }}" style="width: 34px; height: 32px; border: 1.5px solid #DDE3EF; background: #fff; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: inherit; font-size: 15px; color: #EF4444; line-height: 1;" style-active="border-color: #EF4444; background: #FEF4F4">✕</button>
+                </sc-if>
+                <sc-if value="{{ q.isCorrect }}" hint-placeholder-val="{{ false }}">
+                  <span style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: #E8F8EF; color: #15803D; font-size: 14px; font-weight: 800;">✓</span>
+                </sc-if>
+                <sc-if value="{{ q.isWrong }}" hint-placeholder-val="{{ false }}">
+                  <span style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: #FDECEC; color: #DC2626; font-size: 13px; font-weight: 800;">✕</span>
+                </sc-if>
+              </div>
+            </div>
+            <sc-if value="{{ q.answered }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-left: 28px; margin-top: 8px; animation: slideUp .2s ease;">
+                <sc-if value="{{ q.isCorrect }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size: 11.5px; font-weight: 700; color: #15803D;">정답입니다 · 정답 {{ q.correctLabel }}</div>
+                </sc-if>
+                <sc-if value="{{ q.isWrong }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size: 11.5px; font-weight: 700; color: #DC2626;">오답 · 내 답 {{ q.userLabel }} · 정답 {{ q.correctLabel }}</div>
+                </sc-if>
+                <div style="font-size: 12.5px; line-height: 1.65; color: #353B47; margin-top: 5px; word-break: keep-all; text-wrap: pretty;">{{ q.explanation }}</div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="padding: 12px 18px 22px; position: sticky; bottom: 0; background: linear-gradient(to top, #F7F8FB 72%, transparent); display: flex; gap: 10px;">
+        <sc-if value="{{ hasPrevPart }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ prevPart }}" style="flex-shrink: 0; border: 1.5px solid #DDE3EF; background: #fff; color: #5A6172; font-size: 14px; font-weight: 700; padding: 13px 18px; border-radius: 12px; cursor: pointer; font-family: inherit;" style-active="transform: scale(.98)">이전</button>
+        </sc-if>
+        <button onClick="{{ nextPart }}" style="flex: 1; border: none; background: #1A1D24; color: #fff; font-size: 15px; font-weight: 700; padding: 14px; border-radius: 12px; cursor: pointer; font-family: inherit;" style-active="transform: scale(.99)">{{ nextLabel }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+      <div style="padding: 48px 24px 20px;">
+        <div style="font-size: 13px; font-weight: 600; color: #5C6473;">학습 완료</div>
+        <div style="font-size: 24px; font-weight: 800; margin-top: 8px;">{{ resultTitle }}</div>
+        <div style="font-size: 14px; color: #5C6473; margin-top: 6px;">재무회계 챕터3 (개념체계)</div>
+        <div style="display: flex; align-items: baseline; gap: 6px; margin-top: 22px;">
+          <span style="font-size: 40px; font-weight: 800; color: #1A1D24;">{{ score }}</span>
+          <span style="font-size: 18px; font-weight: 700; color: #B0B6C5;">/ {{ totalCount }}점</span>
+        </div>
+      </div>
+
+      <div style="padding: 8px 16px 16px; flex: 1;">
+        <div style="font-size: 12px; font-weight: 700; color: #6E7585; letter-spacing: .03em; padding: 8px;">다시 보기</div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <sc-for list="{{ reviewList }}" as="r" hint-placeholder-count="4">
+            <div style="display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 14px; padding: 13px 15px; box-shadow: 0 2px 8px rgba(30,40,70,.04);">
+              <span style="font-size: 18px; flex-shrink: 0;">{{ r.resultMark }}</span>
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 13.5px; line-height: 1.45; color: #14171D; word-break: keep-all;">{{ r.text }}</div>
+                <div style="font-size: 11.5px; color: #727A8A; margin-top: 3px;">Q{{ r.number }} · 정답 {{ r.correctLabel }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="padding: 12px 20px 28px; display: flex; gap: 12px; position: sticky; bottom: 0; background: linear-gradient(to top, #F7F8FB 70%, transparent);">
+        <button onClick="{{ goHome }}" style="flex: 1; border: 2px solid #DDE3EF; background: #fff; color: #5A6172; font-size: 15px; font-weight: 700; padding: 15px; border-radius: 16px; cursor: pointer; font-family: inherit;" style-active="transform: scale(.98)">목록으로</button>
+        <button onClick="{{ retry }}" style="flex: 1.4; border: none; background: #4F46E5; color: #fff; font-size: 15px; font-weight: 700; padding: 15px; border-radius: 16px; cursor: pointer; font-family: inherit;" style-active="transform: scale(.98)">다시 풀기</button>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { screen: 'home', partIndex: 0, answers: [] };
+
+  get data() {
+    const P1 = "PART 1. 개념체계의 성격과 지위";
+    const P2 = "PART 2. 기본가정 — 계속기업";
+    const P3 = "PART 3. 일반목적재무보고";
+    const P4 = "PART 4. 질적 특성 — 목적적합성";
+    const P5 = "PART 5. 질적 특성 — 표현충실성";
+    const P6 = "PART 6. 질적 특성 — 보강적 특성";
+    const P7 = "PART 7. 재무제표의 요소 — 자산";
+    const P8 = "PART 8. 재무제표의 요소 — 부채·수익·비용";
+    const P9 = "PART 9. 보고기업";
+    const P10 = "PART 10. 인식";
+    const P11 = "PART 11. 측정 — 역사적 원가";
+    const P12 = "PART 12. 측정 — 공정가치";
+    const P13 = "PART 13. 측정 — 현행원가";
+    const P14 = "PART 14. 측정 — 사용가치·이행가치";
+    const P15 = "PART 15. 측정 — 기타";
+    const P16 = "PART 16. 자본과 자본유지개념";
+    return [
+      { part: P1, text: "개념체계는 회계기준이 아니다.", answer: "O", exp: "개념체계는 회계이론을 정립하기 위한 \u201c개념적 틀\u201d이다. 회계의 헌법 같은 역할을 하지만, 그 자체가 회계기준은 아니다. 회계기준을 만들고 해석하는 데 도움을 주는 가이드라인이다." },
+      { part: P1, text: "개념체계는 어떠한 회계기준보다도 우선한다.", answer: "X", exp: "개념체계는 기준서에 우선하지 않는다. 개념체계와 한국채택국제회계기준이 충돌하면 기준서가 이긴다. 개념체계는 큰 원칙을 담고 있지만, 구체적인 기준서가 항상 우선하는 구조다." },
+      { part: P1, text: "개념체계와 「한국채택국제회계기준」이 상충되면 기준서가 우선한다.", answer: "O", exp: "충돌 시 기준서가 우선한다. 개념체계는 헌법처럼 큰 원칙을 담고 있지만, 실제 충돌이 생기면 구체적인 법률(기준서)이 이기는 독특한 구조다." },
+      { part: P1, text: "개념체계는 한국회계기준위원회가 일관된 개념에 기반하여 기준서를 제·개정하는 데 도움을 준다.", answer: "O", exp: "개념체계의 핵심 목적 중 하나다. 회계기준을 만들거나 고칠 때, 일관된 원칙 위에서 작업할 수 있도록 기본 틀을 제공하는 것이 개념체계의 역할이다." },
+      { part: P1, text: "개념체계는 모든 이해관계자가 회계기준을 이해하고 해석하는 데 도움을 준다.", answer: "O", exp: "개념체계의 또 다른 핵심 목적이다. 투자자, 채권자, 경영진, 감사인 등 모든 이해관계자가 회계기준을 이해하고 해석하는 데 도움을 주기 위해 만들어졌다." },
+      { part: P2, text: "재무제표는 기업이 예상 가능한 기간 동안 영업을 계속할 것이라는 가정 하에 작성된다.", answer: "O", exp: "계속기업 가정의 정의다. \u201c영원히\u201d가 아니라 \u201c예상 가능한 기간\u201d, 즉 예측 가능한 미래까지를 의미한다." },
+      { part: P2, text: "계속기업의 가정은 재무제표항목들을 역사적 원가로 보고하는 것에 정당성을 부여한다.", answer: "O", exp: "회사가 계속 운영될 거라 가정하니까, 자산을 산 가격(역사적 원가) 그대로 적어도 의미가 있다. 만약 내일 폐업할 회사라면 산 가격보다 지금 팔 수 있는 가격이 더 중요할 것이다." },
+      { part: P2, text: "유형자산에 대한 감가상각은 기업실체가 계속된다는 가정을 전제로 한다.", answer: "O", exp: "감가상각이란 자산의 취득원가를 내용연수에 걸쳐 나눠서 비용으로 인식하는 것이다. 기계를 1억에 사서 10년 쓸 거라면 매년 1천만원씩 비용으로 잡는데, 회사가 10년간 계속 운영되어야 이 처리가 의미를 가진다." },
+      { part: P2, text: "계속기업 여부의 판단 주체는 감사인이다.", answer: "X", exp: "판단 주체는 경영진이다. 경영진이 직접 계속기업 여부를 판단하고, 감사인은 그 판단이 적절한지 검토하는 역할이다." },
+      { part: P2, text: "경영활동을 청산하거나 중요하게 축소할 의도가 있다면 계속기업 가정과 다른 기준을 적용할 수 있다.", answer: "O", exp: "계속기업 가정이 깨지는 상황이다. 이때는 계속기업을 가정한 기준과는 다른 기준을 적용하여 작성하는 것이 타당할 수 있다." },
+      { part: P2, text: "계속기업 가정과 다른 기준을 적용한 경우, 그 사실을 별도로 공시할 필요가 없다.", answer: "X", exp: "다른 기준을 적용했다면 그 사실을 재무제표에 반드시 별도로 공시해야 한다. 투자자가 회사가 갑자기 다른 기준으로 재무제표를 만들었다는 사실을 모르면 큰 혼란이 생기기 때문이다." },
+      { part: P2, text: "계속기업의 가정이 있기 때문에 유동/비유동 구분이 의미를 가진다.", answer: "O", exp: "1년 기준으로 유동/비유동을 나누는 것은 회사가 계속 운영된다는 전제 하에 의미가 있다. 내일 문을 닫을 회사라면 이런 구분 자체가 무의미해진다." },
+
+      { part: P3, text: "일반목적재무보고의 목적은 현재 및 잠재적 투자자, 대여자 및 기타 채권자의 의사결정에 유용한 정보를 제공하는 것이다.", answer: "O", exp: "일반목적재무보고의 목적을 정확히 설명한 것이다. 핵심은 주요 이용자(투자자, 대여자, 채권자)의 의사결정에 유용한 정보 제공이다." },
+      { part: P3, text: "투자자, 대여자, 채권자는 경영진이 자원을 얼마나 효율적이고 효과적으로 사용했는지에 대한 정보를 필요로 한다.", answer: "O", exp: "이것이 수탁책임(stewardship)이다. 경영진이 투자자로부터 맡은 자원을 얼마나 잘 관리하고 있는지에 대한 책임이며, 투자자들은 이 정보를 당연히 알고 싶어 한다." },
+      { part: P3, text: "경영진도 외부 이해관계자와 마찬가지로 일반목적재무보고서에 가장 많이 의존한다.", answer: "X", exp: "경영진은 내부에서 매출, 원가, 생산 현황 등을 실시간으로 볼 수 있다. 내부 관리보고서가 훨씬 상세하고 빠르므로, 경영진은 일반목적재무보고서에 의존할 필요가 없다." },
+      { part: P3, text: "경영진은 필요로 하는 재무정보를 내부에서 구할 수 있기 때문에 일반목적재무보고서에 의존할 필요가 없다.", answer: "O", exp: "경영진은 내부 정보에 접근할 수 있으므로 외부용 보고서에 의존할 필요가 없다. 일반목적재무보고서는 내부 정보에 접근할 수 없는 외부 이해관계자를 위한 것이다." },
+      { part: P3, text: "일반목적재무보고서는 이용자가 필요로 하는 모든 정보를 제공한다.", answer: "X", exp: "\u201c모든\u201d이 틀렸다. 일반목적재무보고서는 모든 정보를 제공하지 않으며, 제공할 수도 없다. 투자자들은 경제 뉴스, 산업 분석, 시장 동향 등 다른 원천의 정보도 함께 고려해야 한다." },
+      { part: P3, text: "일반목적재무보고서는 보고기업의 가치를 보여주기 위해 고안된 것이 아니다.", answer: "O", exp: "\u201c이 회사의 가치는 정확히 500억\u201d이라고 알려주는 것이 아니다. 가치를 스스로 추정하는 데 도움이 되는 정보를 제공할 뿐이다. 기업 가치 평가는 투자자가 직접 해야 한다." },
+      { part: P3, text: "재무보고서는 정확한 서술보다는 상당 부분 추정, 판단 및 모형에 근거한다.", answer: "O", exp: "재무보고서는 100% 정확한 숫자만으로 이루어진 것이 아니다. 감가상각비(내용연수 추정), 대손충당금(회수 불가능 금액 추정), 공정가치(모형으로 계산) 등 추정과 판단이 많이 들어간다." },
+      { part: P3, text: "많은 투자자, 대여자 및 채권자는 정보를 제공하도록 보고기업에 직접 요구할 수 없다.", answer: "O", exp: "일반 투자자가 회사에 전화해서 \u201c내부 자료 보여주세요\u201d라고 요구할 수는 없다. 외부 이용자들은 회사에 직접 정보를 요구할 수 없기 때문에 공개된 재무보고서에 의존해야 한다." },
+      { part: P3, text: "거래를 법률적 형식만이 아니라 실질과 경제적 현실에 따라 회계처리해야 한다.", answer: "O", exp: "실질 우선의 원칙이다. 형식적으로는 임대차 계약이지만 실질적으로 자산을 사는 것과 다름없는 금융리스라면, 법적 형식(임대)이 아니라 경제적 실질(자산 취득)에 따라 회계처리한다." },
+      { part: P3, text: "실무에서는 정보의 질적 특성 간의 균형 또는 상충관계를 고려할 필요가 있다.", answer: "O", exp: "정보를 더 빨리 제공하면(적시성↑) 정확성이 떨어질 수 있고(표현충실성↓), 반대로 정확하게 만들려고 시간을 들이면 타이밍을 놓칠 수 있다. 이런 상충관계의 균형을 잡아야 한다." },
+
+      { part: P4, text: "목적적합한 재무정보는 정보이용자의 의사결정에 차이가 나도록 할 수 있다.", answer: "O", exp: "목적적합성의 핵심 정의다. 그 정보가 있으면 의사결정이 달라질 수 있어야 목적적합한 정보다." },
+      { part: P4, text: "재무정보에 예측가치, 확인가치 또는 이 둘 모두가 있다면 의사결정에 차이가 나도록 할 수 있다.", answer: "O", exp: "목적적합성의 하위 구성요소를 설명한 것이다. 예측가치(미래 예측에 도움)와 확인가치(과거 판단 확인) 중 하나 또는 둘 다 있으면 목적적합하다." },
+      { part: P4, text: "재무정보가 예측가치를 갖기 위해서는 그 자체가 예측치 또는 예상치 형태를 갖추어야만 한다.", answer: "X", exp: "\u201c올해 매출 100억\u201d이라는 과거 정보도, 투자자가 이것을 근거로 내년을 예측하는 데 활용할 수 있다면 예측가치가 있다. 정보 자체가 \u201c내년 매출은 110억\u201d이라는 예측치 형태일 필요는 없다." },
+      { part: P4, text: "정보이용자들이 미래 결과를 예측하기 위해 사용하는 절차의 투입요소로 재무정보가 사용될 수 있다면 예측가치를 갖는다.", answer: "O", exp: "예측가치의 핵심 정의다. 정보 자체가 예측치일 필요 없이, 예측 과정에 재료(투입요소)로 쓰일 수 있으면 예측가치가 있다." },
+      { part: P4, text: "재무정보가 과거 평가에 대해 피드백을 제공한다면 확인가치를 갖는다.", answer: "O", exp: "확인가치의 정의다. \u201c작년에 매출 성장할 거라 예상했는데, 실제로도 그랬네\u201d → 과거 판단이 맞았는지 확인해주는 정보이므로 확인가치가 있다." },
+      { part: P4, text: "예측가치와 확인가치는 상호 연관되어 있다.", answer: "O", exp: "하나의 정보가 둘 다 가질 수 있다. 올해 매출 100억이라는 정보는 내년 매출을 예측하는 데도, 작년 예상이 맞았는지 확인하는 데도 쓰인다." },
+      { part: P4, text: "중요성은 표현충실성을 갖추기 위한 하부 요소이다.", answer: "X", exp: "중요성은 표현충실성이 아니라 목적적합성의 하부속성이다. 표현충실성의 요소는 완전성, 중립성, 오류 없음이다. 중요성과 표현충실성은 소속이 다르다." },
+      { part: P4, text: "중요성은 기업 특유의 목적적합성을 의미하므로 미리 획일적인 계량 임계치를 정할 수 없다.", answer: "O", exp: "대기업에서 1억은 중요하지 않을 수 있지만, 작은 스타트업에서 1억은 회사 운명을 바꿀 수 있다. 중요성은 기업 특유의 것이기 때문에 일률적 기준을 정하는 게 불가능하다." },
+      { part: P4, text: "회계기준위원회는 중요성에 대한 획일적 계량 임계치를 정하거나 미리 결정할 수 있다.", answer: "X", exp: "획일적 임계치를 정할 수도 없고, 특정 상황에서 무엇이 중요한지 미리 결정할 수도 없다. 기업마다 상황이 다르기 때문에 \u201c매출의 5% 이상이면 중요하다\u201d처럼 일률적으로 정하는 것이 불가능하다." },
+      { part: P4, text: "중요성은 항목의 성격이나 규모 또는 이 둘 모두에 근거하여 기업에 특유한 측면에서 판단한다.", answer: "O", exp: "성격(어떤 종류의 항목인지)과 규모(금액이 얼마나 큰지), 또는 둘 모두를 고려해서 개별적으로 판단한다." },
+
+      { part: P5, text: "완벽하게 충실한 표현을 위해서는 서술이 완전하고, 중립적이며, 오류가 없어야 한다.", answer: "O", exp: "표현충실성의 세 가지 요건이다. 완전성(빠짐없이), 중립성(치우치지 않게), 오류 없음(절차상 오류 없이)." },
+      { part: P5, text: "기업의 경제적 상황을 이해하는 데 필요한 정보를 완전히 포함하도록 해야 한다.", answer: "O", exp: "표현충실성의 완전성 요건이다. 이용자가 현상을 이해하는 데 필요한 정보를 빠뜨리지 않고 모두 담아야 한다." },
+      { part: P5, text: "특정 정보이용자에게 유리하도록 정보를 선택적으로 제공하지 않아야 한다.", answer: "O", exp: "표현충실성의 중립성 요건이다. 회사에 유리한 정보만 골라 보여주면 안 되고, 좋은 소식도 나쁜 소식도 공평하게 보여줘야 한다." },
+      { part: P5, text: "중립적 서술은 불확실한 상황에서 판단할 때 주의를 기울이는 신중성으로 뒷받침된다.", answer: "O", exp: "신중성(prudence)이란 불확실한 상황에서 자산·수익을 과대계상하거나 부채·비용을 과소계상하지 않도록 주의를 기울이는 것이다. 중립성은 이런 신중성에 의해 뒷받침된다." },
+      { part: P5, text: "오류가 없다는 것은 모든 면에서 완벽하게 정확하다는 것을 의미한다.", answer: "X", exp: "\u201c오류가 없다\u201d는 절차상의 오류가 없다는 뜻이지, 모든 면에서 100% 완벽하게 정확하다는 뜻이 아니다. 추정치에는 본질적 불확실성이 있으므로 완벽한 정확성은 달성할 수 없다." },
+      { part: P5, text: "표현충실성은 모든 면에서 정확한 것을 의미하지는 않는다.", answer: "O", exp: "절차상 오류가 없으면 되며, 모든 면에서 완벽하게 정확할 것까지 요구하지 않는다. 추정치가 들어가는 이상 완벽한 정확성은 불가능하기 때문이다." },
+      { part: P5, text: "추정치의 경우 추정 금액을 정확하게 기술하고 추정 절차의 성격과 한계를 설명하면 된다.", answer: "O", exp: "표현충실성의 오류 없음 요건이다. 추정치는 본질적으로 불확실하지만, 추정 절차가 어떤 것이고 어떤 한계가 있는지 솔직하게 설명하면 오류가 없는 서술이 된다." },
+      { part: P5, text: "표현충실성은 향후 어떤 결과를 초래할지 예측하는 데 도움이 되어야 한다.", answer: "X", exp: "표현충실성은 과거에 일어난 사건을 있는 그대로 충실하게 표현하는 것이다. 미래를 예측하는 데 도움이 되어야 하는 것은 목적적합성(예측가치)의 영역이지, 표현충실성의 역할이 아니다." },
+      { part: P5, text: "정부보조금으로 유형자산을 취득하여 취득원가를 ₩0으로 보고하면 표현충실성과 의사결정의 유용성을 동시에 충족시킬 수 있다.", answer: "X", exp: "₩0은 실제로 돈을 안 냈으니 사실에 부합하여 표현충실성은 어느 정도 충족한다. 그러나 수억원짜리 기계가 ₩0으로 적히면 투자자의 의사결정에 도움이 안 된다. 유용한 정보가 되려면 목적적합성과 표현충실성 둘 다 필요한데, 여기서는 목적적합성이 결여되므로 \u201c동시에 충족\u201d이 틀렸다." },
+      { part: P5, text: "추정치에 포함된 측정불확실성은 정보의 유용성을 저해한다.", answer: "X", exp: "추정치를 명확하게 기술하고 설명한다면 유용성을 훼손하지 않는다. 추정이 들어간다고 해서 정보가 무조건 쓸모없어지는 것이 아니다." },
+      { part: P5, text: "측정불확실성이 높은 수준이더라도 그러한 추정이 무조건 유용한 정보를 제공하지 못하는 것은 아니다.", answer: "O", exp: "불확실성이 높아도 추정치를 명확히 기술하고 한계를 설명하면 충분히 유용할 수 있다. \u201c추정 = 쓸모없다\u201d는 틀린 논리다." },
+      { part: P5, text: "합리적인 추정의 사용은 재무정보 작성의 필수적인 부분이다.", answer: "O", exp: "재무제표에는 감가상각비, 대손충당금, 충당부채 등 추정이 필수적으로 들어간다. 추정 없이는 재무정보를 만들 수 없다." },
+      { part: P5, text: "유용한 재무정보가 되려면 목적적합성과 표현충실성 둘 다 갖춰야 한다.", answer: "O", exp: "근본적 질적 특성 두 가지가 모두 갖춰져야 유용한 정보가 된다. 어느 하나만 있으면 부족하다." },
+
+      { part: P6, text: "비교가능성은 이용자가 항목 간의 유사점과 차이점을 식별하고 이해할 수 있게 하는 질적 특성이다.", answer: "O", exp: "비교가능성의 정의다. 핵심 키워드는 \u201c유사점·차이점 식별·이해\u201d다." },
+      { part: P6, text: "비교가능성과 일관성은 동일한 개념이다.", answer: "X", exp: "비교가능성은 최종 목표(\u201c비교할 수 있게 하자\u201d)이고, 일관성은 목표 달성의 수단(\u201c같은 방법을 계속 쓰자\u201d)이다. 관련은 있지만 동일하지 않다." },
+      { part: P6, text: "비교가능성은 동일성(획일성)이 아니다.", answer: "O", exp: "비교가능성은 모든 기업이 무조건 똑같은 방법을 써야 한다는 뜻이 아니다. 비슷한 것은 비슷하게, 다른 것은 다르게 보여줘야 비교가 가능하다." },
+      { part: P6, text: "동일한 경제현상에 대해 대체적인 회계처리방법을 허용하면 비교가능성은 증가한다.", answer: "X", exp: "감소한다. A회사는 선입선출법, B회사는 가중평균법을 쓰면 같은 재고자산이라도 금액이 달라져서 비교하기 어려워진다. 대체적 방법을 많이 허용할수록 비교가능성은 떨어진다." },
+      { part: P6, text: "검증가능성은 정보가 경제적 현상을 충실히 표현하는지를 이용자들이 확인하는 데 도움을 준다.", answer: "O", exp: "검증가능성의 정의다. 핵심 키워드는 \u201c충실히 표현하는지 확인\u201d이다. 다른 사람이 같은 자료를 보고 같은 결론에 도달할 수 있는지의 문제다." },
+      { part: P6, text: "검증은 간접으로도 이루어질 수 있다.", answer: "O", exp: "직접 검증(창고에서 재고 직접 세기)뿐 아니라, 간접 검증(같은 공식으로 감가상각비 재계산)도 가능하다." },
+      { part: P6, text: "계량화된 정보가 검증가능하기 위해서는 반드시 단일 점추정치이어야 한다.", answer: "X", exp: "\u201c정확히 50억\u201d처럼 하나의 숫자일 필요는 없다. \u201c45억~55억 범위이고 관련 확률은 이러이러하다\u201d처럼 범위와 확률로도 검증 가능하다." },
+      { part: P6, text: "독립적인 서로 다른 관찰자가 반드시 완전히 의견이 일치해야 검증가능하다.", answer: "X", exp: "반드시 완전히 일치할 필요는 없다. 비록 완전히 일치하지는 않더라도 합의에 이를 수 있으면 검증가능하다." },
+      { part: P6, text: "적시성은 의사결정자가 정보를 제때에 이용가능하게 하는 것을 의미한다.", answer: "O", exp: "적시성의 정의다. 핵심 키워드는 \u201c제때\u201d다. 아무리 좋은 정보도 타이밍을 놓치면 쓸모없다." },
+      { part: P6, text: "일반적으로 정보는 오래될수록 유용성이 낮아진다.", answer: "O", exp: "적시성과 관련된 일반 원칙이다. 다만 모든 정보가 그런 것은 아니며, 일부 정보는 오래되어도 유용할 수 있다." },
+      { part: P6, text: "보고기간 말 후의 모든 정보는 적시성이 없다.", answer: "X", exp: "\u201c모든\u201d이 틀렸다. 일부 정보는 보고기간 말 이후에도 오랫동안 적시성이 있을 수 있다. 예를 들어 매출 추세 파악을 위한 과거 5년치 데이터는 3년이 지나도 추세 분석에 유용하다." },
+      { part: P6, text: "정보를 명확하고 간결하게 분류하고, 특징지으며, 표시하는 것은 정보를 이해가능하게 한다.", answer: "O", exp: "이해가능성의 정의다. 핵심 키워드는 \u201c분류·특징·표시\u201d다. 정보를 잘 정리해서 보여주면 이해하기 쉬워진다." },
+      { part: P6, text: "이해가능성은 아무나 다 이해할 수 있어야 한다는 뜻이다.", answer: "X", exp: "경영·경제활동과 회계에 대한 합리적인 지식을 가지고 합리적인 노력을 기울일 의지가 있는 이용자가 이해할 수 있으면 된다. 회계를 전혀 모르는 사람까지 포함하라는 뜻이 아니다." },
+      { part: P6, text: "검증가능성은 항목 간의 유사점과 차이점을 식별하고 이해할 수 있게 하는 질적 특성이다.", answer: "X", exp: "정의 바꿔치기다. \u201c유사점·차이점 식별·이해\u201d는 비교가능성의 정의다. 검증가능성의 올바른 정의는 \u201c경제적 현상을 충실히 표현하는지를 확인하는 데 도움\u201d이다." },
+      { part: P6, text: "이해가능성은 독립적인 서로 다른 관찰자가 합의에 이를 수 있다는 것을 의미한다.", answer: "X", exp: "정의 바꿔치기다. \u201c서로 다른 관찰자가 합의\u201d는 검증가능성의 정의다. 이해가능성의 올바른 정의는 \u201c합리적 이용자가 이해할 수 있도록 명확하게 분류·표시\u201d이다." },
+      { part: P6, text: "비교가능성, 검증가능성, 중요성 및 적시성은 보강적 질적 특성이다.", answer: "X", exp: "올바른 보강적 4가지는 비교가능성, 검증가능성, 적시성, 이해가능성이다. 중요성이 이해가능성 자리에 끼어들었다. 중요성은 보강적 질적 특성이 아니라 목적적합성의 하부속성이다." },
+      { part: P6, text: "보강적 질적 특성은 가능한 한 극대화되어야 한다.", answer: "O", exp: "보강적 질적 특성은 있으면 있을수록 좋다. 다만 근본적 특성이 없으면 보강적 특성만으로는 정보를 유용하게 만들 수 없다." },
+      { part: P6, text: "보강적 질적 특성만으로도 정보가 목적적합하지 않더라도 유용하게 만들 수 있다.", answer: "X", exp: "근본적 특성(목적적합성·표현충실성)이 없으면 보강적 특성만으로는 유용하게 할 수 없다. 음식 맛(근본적)이 없으면 예쁜 그릇(보강적)이 소용없는 것과 같다." },
+      { part: P6, text: "근본적 질적 특성은 목적적합성과 표현충실성이고, 보강적 질적 특성은 비교가능성, 검증가능성, 적시성, 이해가능성이다.", answer: "O", exp: "질적 특성의 올바른 분류 구조다. 근본적 2가지 + 보강적 4가지 = 총 6가지." },
+
+      { part: P7, text: "자산이란 과거사건의 결과로 기업이 통제하는 현재의 경제적 자원이다.", answer: "O", exp: "자산의 정의다. 핵심 키워드는 과거사건 + 통제 + 경제적 자원이다." },
+      { part: P7, text: "미래에 발생할 것으로 예상되는 거래만으로도 자산을 인식할 수 있다.", answer: "X", exp: "\u201c내년에 기계를 살 예정이다\u201d라는 것만으로는 자산이 되지 않는다. 과거에 실제로 거래가 일어나야 자산이 된다. \u201c과거사건의 결과\u201d여야 한다." },
+      { part: P7, text: "법적인 소유권이 없으면 자산으로 인식할 수 없다.", answer: "X", exp: "법적 소유권은 통제의 일반적 근거일 뿐, 유일한 조건이 아니다. 법적 소유권 없이도 실질적으로 통제하면 자산이 된다." },
+      { part: P7, text: "금융리스로 사용하는 자산은 법적 소유권이 없어도 자산으로 인식할 수 있다.", answer: "O", exp: "법적 소유권은 리스회사에 있지만, 실질적으로 우리 회사가 통제하고 있으므로 실질 우선의 원칙에 따라 우리 회사의 자산으로 인식한다." },
+      { part: P7, text: "미래경제적효익은 직접 혹은 간접으로 미래현금흐름창출에 기여하는 잠재력이다.", answer: "O", exp: "기계로 제품을 만들어 팔면 직접적으로, 사무실 건물은 업무 환경을 제공해서 간접적으로 현금흐름에 기여한다." },
+      { part: P7, text: "경제적 효익의 유입가능성이 낮더라도 자산이 존재할 수 있다.", answer: "O", exp: "가능성이 낮더라도 정의를 충족하면 자산이 존재할 수 있다. 다만 실제로 재무제표에 인식할지는 별개의 문제다." },
+
+      { part: P8, text: "부채란 과거사건의 결과로 경제적 자원을 이전해야 하는 현재의무이다.", answer: "O", exp: "부채의 정의다. 핵심 키워드는 과거사건 + 이전 + 현재의무다." },
+      { part: P8, text: "금액을 추정해야 하면 부채가 아니다.", answer: "X", exp: "금액을 추정해야 하더라도 부채가 될 수 있다. 충당부채가 대표적인 예다. 소송 배상금처럼 정확한 금액을 모르지만 합리적으로 추정해서 부채로 인식한다." },
+      { part: P8, text: "부채의 의무는 정상적인 거래실무, 관행에서 발생할 수도 있다.", answer: "O", exp: "법적 의무만 부채가 아니다. 관행이나 공평한 거래를 하려는 의도에서도 의무가 발생할 수 있는데, 이것을 의제의무라고 한다." },
+      { part: P8, text: "기업이 실무 관행이나 공개된 경영방침과 상충되는 방식으로 행동할 실제 능력이 없는 경우 의무가 발생할 수 있다.", answer: "O", exp: "의제의무의 핵심 설명이다. 매년 보증수리를 해주겠다고 공개적으로 약속했다면, \u201c올해부터 안 해줄게요\u201d라고 하면 고객 신뢰를 잃으므로 그렇게 행동할 실제 능력이 없다. 따라서 사실상 피할 수 없는 의무가 발생한다." },
+      { part: P8, text: "의무를 이행할 대상인 당사자의 신원을 반드시 알아야 한다.", answer: "X", exp: "상대방의 신원을 알 필요 없다. 환경오염 복구 의무처럼 상대방이 불특정 다수(사회 전반)인 경우도 있다." },
+      { part: P8, text: "경제적 자원의 이전을 요구받을 것이 확실하거나 가능성이 높아야만 부채이다.", answer: "X", exp: "가능성이 낮더라도 이전해야 할 잠재력만 있으면 부채의 정의를 충족할 수 있다. \u201c확실하거나 높아야\u201d라는 절대적 조건은 틀리다." },
+      { part: P8, text: "새로운 법률이 제정되면 그 자체만으로 기업에 현재의무를 부여하기에 충분하다.", answer: "X", exp: "법 제정만으로 자동으로 현재의무가 생기지 않는다. 그 법률의 적용으로 실제로 경제적 효익을 얻거나 조치를 취한 경우에만 현재의무가 발생한다. 예를 들어 \u201c공장 운영 시 환경세 납부\u201d 법이 생겨도, 아직 공장을 가동하지 않았다면 현재의무가 없다." },
+      { part: P8, text: "수익이란 자본의 증가를 가져오는 자산의 증가나 부채의 감소로서, 자본청구권 보유자의 출자와 관련된 것은 제외한다.", answer: "O", exp: "수익의 정의다. \u201c출자 제외\u201d가 핵심이다. 주주가 돈을 넣은 것(유상증자)은 수익이 아니다." },
+      { part: P8, text: "비용이란 자본의 감소를 가져오는 자산의 감소나 부채의 증가로서, 자본청구권 보유자에 대한 분배와 관련된 것은 제외한다.", answer: "O", exp: "비용의 정의다. \u201c분배 제외\u201d가 핵심이다. 주주에게 배당금을 지급하는 것은 비용이 아니다." },
+
+      { part: P9, text: "보고기업은 재무제표를 작성해야 하거나 작성하기로 선택한 기업이다.", answer: "O", exp: "보고기업의 정의다. 법에 의해 작성 의무가 있거나, 자발적으로 작성을 선택한 기업이다." },
+      { part: P9, text: "보고기업은 반드시 법적 실체와 일치한다.", answer: "X", exp: "법적 실체일 필요가 없다. 회사의 한 사업부도 보고기업이 될 수 있고, 법적으로 별도인 여러 회사를 합쳐서 하나의 보고기업으로 볼 수도 있다." },
+      { part: P9, text: "보고기업은 둘 이상의 실체로 구성될 수 있다.", answer: "O", exp: "예를 들어 모회사 + 자회사를 합쳐서 하나의 보고기업으로 볼 수 있다. 이때 만드는 재무제표가 연결재무제표다." },
+      { part: P9, text: "지배기업과 종속기업으로 구성된 보고기업의 재무제표를 연결재무제표라 한다.", answer: "O", exp: "연결재무제표의 정의다. 모회사와 자회사를 합쳐서 하나의 경제적 단일 실체로 본 재무제표다." },
+      { part: P9, text: "지배기업 단독의 재무제표를 비연결재무제표라 한다.", answer: "O", exp: "비연결재무제표는 모회사(지배기업) 혼자만의 재무제표다. 자회사를 합치지 않은 것이다." },
+      { part: P9, text: "지배-종속관계로 모두 연결되어 있지 않은 둘 이상 실체들의 재무제표를 결합재무제표라 한다.", answer: "O", exp: "결합재무제표의 정의다. 서로 모자(지배-종속) 관계가 아닌 독립적인 회사들을 묶어서 만든 재무제표다." },
+      { part: P9, text: "비연결재무제표는 특정 종속기업의 별도 정보를 제공하기 위해 만들어졌다.", answer: "X", exp: "비연결재무제표는 지배기업 단독의 재무제표이지, 종속기업 정보를 제공하기 위한 것이 아니다. 특정 종속기업의 별도 정보가 필요하면 그 종속기업 자체의 재무제표를 봐야 한다." },
+
+      { part: P10, text: "인식이란 재무제표 요소의 정의에 부합하고 인식기준을 충족하는 항목을 재무상태표나 포괄손익계산서에 반영하는 과정이다.", answer: "O", exp: "인식의 정의다. 정의 부합 + 인식기준 충족 → 재무제표에 반영한다." },
+      { part: P10, text: "재무제표 요소의 정의를 충족하면 항상 인식된다.", answer: "X", exp: "정의를 충족해도, 인식기준(목적적합성 + 충실한 표현)을 추가로 충족해야 실제로 인식한다. 무조건 인식되는 것은 아니다." },
+      { part: P10, text: "측정을 해야 하며, 많은 경우 그러한 측정은 추정될 수 없다.", answer: "X", exp: "\u201c없다\u201d가 틀렸다. 올바른 표현은 \u201c추정되어야 한다\u201d이다. 합리적인 추정의 사용은 재무정보 작성의 필수적인 부분이다." },
+      { part: P10, text: "자산이나 부채의 최초 인식에 따라 관련 수익과 비용을 동시에 인식할 수 있다.", answer: "O", exp: "예를 들어 상품을 외상으로 판매하면, 매출채권(자산)과 매출(수익)을 동시에 인식한다." },
+      { part: P10, text: "경제적 효익의 유입·유출 가능성이 낮더라도 자산이나 부채가 존재할 수 있다.", answer: "O", exp: "가능성이 낮더라도 정의를 충족하면 존재할 수 있다. 존재 여부와 인식 여부는 별개의 문제다." },
+
+      { part: P11, text: "역사적 원가 측정치는 거래나 그 밖의 사건의 가격에서 도출된 정보를 사용한다.", answer: "O", exp: "역사적 원가는 과거에 실제로 일어난 거래 가격에서 도출된다. \u201c3년 전에 10억에 샀다\u201d → 그 10억이 역사적 원가의 기초다." },
+      { part: P11, text: "자산의 역사적 원가는 지급한 대가와 거래원가를 포함한다.", answer: "O", exp: "자산의 역사적 원가 = 지급한 대가 + 거래원가. 기계 10억 + 운반비 1천만 = 10억 1천만원이다." },
+      { part: P11, text: "부채의 역사적 원가는 수취한 대가와 거래원가를 포함한 가치이다.", answer: "X", exp: "\u201c포함\u201d이 틀렸다. 부채의 역사적 원가는 수취한 대가에서 거래원가를 차감한 가치다. 은행에서 1억을 빌리고 수수료 200만원을 냈다면, 실제 손에 쥔 돈은 1억 − 200만 = 9,800만원이다. 자산은 더하고(+), 부채는 빼는(−) 패턴이다." },
+      { part: P11, text: "역사적 원가는 자산의 손상 등을 제외하고는 가치의 변동을 반영하지 않는다.", answer: "O", exp: "역사적 원가는 산 가격 그대로를 유지한다. 시장 가격이 올라도 내려도 반영하지 않는다. 다만 자산 가치가 크게 떨어지는 손상이나 손실부담 관련 변동은 예외적으로 반영한다." },
+
+      { part: P12, text: "공정가치는 측정일에 시장참여자 사이의 정상거래에서 자산을 매도할 때 받을 가격이다.", answer: "O", exp: "공정가치의 올바른 정의다. 자산은 매도할 때 받을 가격, 부채는 이전할 때 지급할 가격이다. 파는 관점(유출가치)이다." },
+      { part: P12, text: "공정가치는 자산을 매입할 때 지급하거나 부채를 차입할 때 수취하게 될 가격이다.", answer: "X", exp: "방향이 완전히 반대다. 공정가치는 자산을 매도 시 받을 가격, 부채를 이전 시 지급할 가격이다. \u201c매입/차입/수취\u201d는 모두 반대 방향이므로 틀렸다." },
+      { part: P12, text: "공정가치는 거래원가를 포함한다.", answer: "X", exp: "공정가치는 순수한 시장 가격 그 자체이며, 어떤 경우에도 거래원가를 반영하지 않는다. 거래 과정에서 드는 수수료(거래원가)와는 무관하다." },
+      { part: P12, text: "공정가치를 측정하기 위해 사용하는 주된(또는 가장 유리한) 시장의 가격에는 거래원가를 조정한다.", answer: "X", exp: "\u201c가장 유리한 시장\u201d을 결정할 때는 거래원가를 고려하지만, 실제로 공정가치를 측정할 때는 거래원가를 조정하지 않는다." },
+      { part: P12, text: "공정가치는 시장참여자의 가정을 반영한다.", answer: "O", exp: "공정가치는 \u201c시장참여자라면 얼마에 거래할까?\u201d라는 시장 전체의 시각이다. 기업 특유의 가정이 아니라 시장참여자의 가정을 반영한다." },
+      { part: P12, text: "비금융자산의 공정가치는 시장참여자가 최고 최선으로 사용하는 것을 고려한다.", answer: "O", exp: "비금융자산(토지, 건물 등)은 사용 방법에 따라 가치가 달라진다. 빈 땅을 주차장으로 쓸 수도, 아파트를 지을 수도 있는데, 가장 가치 있게 사용하는 방법(최고 최선 사용)을 기준으로 측정한다." },
+      { part: P12, text: "부채의 공정가치는 불이행위험의 영향을 반영한다.", answer: "O", exp: "불이행위험이란 갚지 못할 위험이다. 신용이 나쁜 회사의 부채는 불이행 위험이 높으므로, 그만큼 할인되어 거래된다. 공정가치에 이 위험을 반영한다." },
+      { part: P12, text: "공정가치로 측정하여 제공하는 정보는 예측가치를 가질 수 있다.", answer: "O", exp: "투자자산의 공정가치가 계속 오르고 있다면, 앞으로도 가치가 오를 것이라고 예측하는 데 활용할 수 있으므로 예측가치를 가질 수 있다." },
+
+      { part: P13, text: "자산의 현행원가는 측정일 현재 동등한 자산의 원가로서 지급할 대가와 거래원가를 포함한다.", answer: "O", exp: "현행원가의 정의다. \u201c오늘 이것을 다시 산다면 얼마가 드나?\u201d = 지급할 대가 + 거래원가. 현행원가는 거래원가를 포함한다." },
+      { part: P13, text: "자산의 \u201c공정가치\u201d는 측정일 현재 동등한 자산의 원가로서 지급할 대가와 거래원가를 포함한다.", answer: "X", exp: "이 정의는 현행원가의 것인데, \u201c공정가치\u201d라고 이름을 붙였으므로 틀렸다. 공정가치는 \u201c매도 시 받을 가격\u201d이며 거래원가를 포함하지 않는다. \u201c거래원가를 포함\u201d → 현행원가이고, 공정가치는 절대 거래원가를 포함하지 않는다." },
+
+      { part: P14, text: "사용가치는 기업이 자산의 사용과 궁극적인 처분으로 얻을 것으로 기대하는 현금흐름의 현재가치이다.", answer: "O", exp: "사용가치의 정의다. \u201c이 자산을 계속 쓰면 앞으로 얼마를 벌 수 있을까?\u201d를 현재가치로 환산한 것이다. 사용가치는 자산의 측정기준이다." },
+      { part: P14, text: "이행가치는 부채를 이행하기 위해 이전해야 할 것으로 기대하는 현금흐름의 현재가치이다.", answer: "O", exp: "이행가치의 정의다. \u201c이 부채를 갚기 위해 앞으로 얼마를 내야 할까?\u201d를 현재가치로 환산한 것이다. 이행가치는 부채의 측정기준이다." },
+      { part: P14, text: "사용가치와 이행가치는 시장참여자의 가정을 반영한다.", answer: "X", exp: "사용가치와 이행가치는 시장참여자가 아니라 기업 특유의 가정을 반영한다. \u201c우리 회사가 쓰면/갚으면 얼마?\u201d라는 개별 기업의 시각이다. 시장참여자의 가정을 반영하는 것은 공정가치다." },
+      { part: P14, text: "사용가치와 이행가치는 직접 관측될 수 없으며 현금흐름기준 측정기법으로 결정된다.", answer: "O", exp: "미래 현금흐름을 추정해서 계산하므로 시장에서 직접 관측할 수 없다. 현금흐름기준 측정기법으로만 결정된다." },
+      { part: P14, text: "사용가치와 이행가치는 자산의 처분이나 부채의 이행 시 발생할 거래원가를 포함하지 않는다.", answer: "X", exp: "\u201c포함하지 않는다\u201d가 틀렸다. 처분·이행 시 발생할 거래원가(미래에 팔거나 갚을 때 드는 비용)는 포함한다. 다만 취득·인수 시 거래원가(과거에 이미 지불한 비용)는 포함하지 않는다." },
+
+      { part: P15, text: "현행가치 측정기준은 공정가치, 사용가치, 이행가치, 현행원가를 포함한다.", answer: "O", exp: "현행가치는 역사적 원가를 제외한 나머지 측정기준들을 묶어서 부르는 이름이다." },
+      { part: P15, text: "현행가치 측정치는 측정일의 조건을 반영하기 위해 갱신된 정보를 사용한다.", answer: "O", exp: "현행가치는 과거 거래 가격이 아니라 현재 시점의 조건을 반영한다. 시장 가격이 변했으면 그 변화를 반영해서 갱신한 정보를 사용한다." },
+      { part: P15, text: "역사적 원가와 달리 현행가치는 자산·부채를 발생시킨 거래의 가격에서 도출되지 않는다.", answer: "O", exp: "역사적 원가는 과거 거래 가격에서 도출되지만, 현행가치는 현재 시점의 조건을 반영하므로 과거 거래 가격에서 도출되지 않는다." },
+      { part: P15, text: "시장 조건에 따른 거래가 아닌 사건으로 자산을 취득하여 원가를 식별할 수 없다면 현행가치가 간주원가로 사용된다.", answer: "O", exp: "기계를 공짜로 받았으면 취득원가가 0원인데 의미가 없다. 이때 받은 시점의 시장가치(현행가치)를 원가처럼 간주해서 사용하는 것이 간주원가다." },
+      { part: P15, text: "공정가치는 부채를 발생시킬 때 거래원가에 의해 감소하며, 이전 시 거래원가를 반영한다.", answer: "X", exp: "공정가치는 거래원가에 의해 감소하지도 않고, 거래원가를 반영하지도 않는다. 자산이든 부채든, 공정가치는 거래원가와 완전히 무관하다." },
+
+      { part: P16, text: "자본이란 기업의 자산에서 모든 부채를 차감한 후의 잔여지분이다.", answer: "O", exp: "자본의 정의다. 자본 = 자산 − 부채. 빚을 다 갚고 남은 것이 주주의 몫이다." },
+      { part: P16, text: "재무적 자본개념에서 자본은 순자산이나 지분과 동의어로 사용된다.", answer: "O", exp: "재무적 자본개념에서는 자본 = 순자산 = 지분이다. 모두 같은 뜻이다." },
+      { part: P16, text: "투하자본의 구매력 유지에 관심이 있다면 재무적 개념의 자본을 채택한다.", answer: "O", exp: "\u201c내가 넣은 돈이 유지되고 있나?\u201d에 관심이 있다면 재무적 자본개념, \u201c회사의 생산능력이 유지되고 있나?\u201d에 관심이 있다면 실물적 자본개념을 쓴다." },
+      { part: P16, text: "자본유지개념에서는 자본유지를 위해 필요한 금액을 초과하는 부분만이 이익이다.", answer: "O", exp: "자본유지개념의 핵심이다. 자본을 유지한 후에 남은 것만 이익이다. 자본 유지에 필요한 만큼은 이익이 아니라 자본의 유지분이다." },
+      { part: P16, text: "재무자본유지개념(불변구매력)에서는 일반물가수준에 따른 가격상승을 초과하는 부분만 이익이다.", answer: "O", exp: "물가가 50% 올랐다면, 자본도 50% 이상 늘어야 실질적으로 이익이 생긴 것이다. 물가 상승분만큼은 자본을 유지하기 위해 필요한 부분이지 이익이 아니다." },
+      { part: P16, text: "재무자본유지개념은 특정한 측정기준의 적용을 요구하지 않는다.", answer: "O", exp: "재무자본유지개념에서는 어떤 측정기준을 쓸지 따로 정해져 있지 않다." },
+      { part: P16, text: "실물자본유지개념을 사용하기 위해서는 역사적 원가기준으로 측정해야 한다.", answer: "X", exp: "\u201c역사적 원가\u201d가 틀렸다. 현행원가가 맞다. 실물자본유지개념은 \u201c실물생산능력을 유지했는가?\u201d를 따지므로, 3년 전에 기계를 10억에 샀는데 지금 같은 기계가 15억이라면 15억을 기준으로 봐야 한다. 그래서 현행원가로 측정해야 한다." },
+      { part: P16, text: "재무자본유지(불변구매력)에서 이익 = 기말자본 − 기초자본 − (기초자본 × 물가상승률)이다.", answer: "O", exp: "물가상승분(기초자본 × 물가상승률)은 자본을 유지하는 데 필요한 금액이므로 빼야 한다. 예를 들어 기초자본 50,000, 기말자본 150,000, 물가상승률 50%이면, 이익 = 150,000 − 50,000 − 25,000 = 75,000이다." },
+      { part: P16, text: "실물자본유지에서 이익 = 기말자본 − (기초수량 × 기말단가)이다.", answer: "O", exp: "기초의 실물생산능력을 기말에 유지하는 데 필요한 금액을 빼야 한다. 예를 들어 기초 50개 × 기말단가 2,000 = 100,000이 유지 필요금액이면, 기말자본 150,000 − 100,000 = 50,000이 이익이다." }
+    ];
+  }
+
+  label(a) { return a === "O" ? "O" : "X"; }
+
+  get parts() {
+    const groups = [];
+    this.data.forEach((q, i) => {
+      let g = groups.find(x => x.name === q.part);
+      if (!g) { g = { name: q.part, items: [] }; groups.push(g); }
+      g.items.push(Object.assign({ gi: i }, q));
+    });
+    return groups;
+  }
+
+  freshAnswers() { return new Array(this.data.length).fill(null); }
+
+  enterChapter() {
+    const a = this.state.answers.length === this.data.length ? this.state.answers : this.freshAnswers();
+    this.setState({ screen: 'toc', answers: a });
+  }
+
+  openPart(i) { this.setState({ screen: 'quiz', partIndex: i }); }
+
+  goToc() { this.setState({ screen: 'toc' }); }
+
+  showResult() { this.setState({ screen: 'result' }); }
+
+  retry() { this.setState({ screen: 'toc', partIndex: 0, answers: this.freshAnswers() }); }
+
+  pick(gi, choice) {
+    if (this.state.answers[gi] != null) return;
+    const answers = this.state.answers.slice();
+    answers[gi] = choice;
+    this.setState({ answers });
+  }
+
+  prevPart() {
+    if (this.state.partIndex > 0) this.setState({ partIndex: this.state.partIndex - 1 });
+  }
+
+  nextPart() {
+    if (this.state.partIndex >= this.parts.length - 1) {
+      this.setState({ screen: 'result' });
+    } else {
+      this.setState({ partIndex: this.state.partIndex + 1 });
+    }
+  }
+
+  splitPartName(name) {
+    const m = name.match(/^(PART\s*\d+)\.\s*(.*)$/);
+    if (m) return { label: m[1], title: m[2] };
+    return { label: "", title: name };
+  }
+
+  renderVals() {
+    const d = this.data;
+    const total = d.length;
+    const screen = this.state.screen;
+    const parts = this.parts;
+
+    const partMap = parts.map(p => ({ name: p.name, count: p.items.length }));
+
+    const totalAnswered = this.state.answers.filter(a => a != null).length;
+    const tocParts = parts.map((p, i) => {
+      const count = p.items.length;
+      const done = p.items.filter(it => this.state.answers[it.gi] != null).length;
+      const split = this.splitPartName(p.name);
+      const status = done >= count ? 'done' : (done > 0 ? 'active' : 'todo');
+      return {
+        num: i + 1,
+        title: split.title,
+        count,
+        done,
+        pct: Math.round((done / count) * 100),
+        progressText: done + " / " + count,
+        isDone: status === 'done',
+        isActive: status === 'active',
+        isTodo: status === 'todo',
+        open: () => this.openPart(i)
+      };
+    });
+
+    const pIdx = Math.min(this.state.partIndex, parts.length - 1);
+    const curPart = parts[pIdx] || parts[0];
+    const split = this.splitPartName(curPart.name);
+
+    const partQuestions = curPart.items.map(it => {
+      const sel = this.state.answers[it.gi] != null ? this.state.answers[it.gi] : null;
+      const answered = sel != null;
+      const isCorrect = answered && sel === it.answer;
+      return {
+        gLabel: String(it.gi + 1).padStart(2, '0'),
+        text: it.text,
+        notAnswered: !answered,
+        answered,
+        isCorrect,
+        isWrong: answered && !isCorrect,
+        userLabel: answered ? this.label(sel) : "",
+        correctLabel: this.label(it.answer),
+        explanation: it.exp,
+        answerO: () => this.pick(it.gi, "O"),
+        answerX: () => this.pick(it.gi, "X")
+      };
+    });
+
+    const partAnswered = curPart.items.filter(it => this.state.answers[it.gi] != null).length;
+    const isLastPart = pIdx >= parts.length - 1;
+
+    const score = this.state.answers.reduce((acc, a, i) => acc + (a === d[i].answer ? 1 : 0), 0);
+    const pct = Math.round((score / total) * 100);
+    let resultTitle;
+    if (pct >= 90) resultTitle = "완벽해요!";
+    else if (pct >= 70) resultTitle = "잘했어요!";
+    else if (pct >= 50) resultTitle = "조금만 더!";
+    else resultTitle = "다시 복습해요";
+
+    const reviewList = d.map((q, i) => {
+      const a = this.state.answers[i];
+      const ok = a === q.answer;
+      return {
+        number: String(i + 1).padStart(2, '0'),
+        text: q.text,
+        correctLabel: this.label(q.answer),
+        resultMark: ok ? "\u2705" : "\u274C"
+      };
+    });
+
+    return {
+      isHome: screen === 'home',
+      isQuiz: screen === 'quiz',
+      isResult: screen === 'result',
+      totalCount: total,
+      partList: partMap,
+      partCount: parts.length,
+      isToc: screen === 'toc',
+      tocParts,
+      chapterDoneText: totalAnswered + "문제 완료",
+      overallPct: Math.round((totalAnswered / total) * 100),
+      overallAnsweredText: totalAnswered + " / " + total,
+      enterChapter: () => this.enterChapter(),
+      goToc: () => this.goToc(),
+      showResult: () => this.showResult(),
+      goHome: () => this.setState({ screen: 'home' }),
+
+      partLabel: split.label,
+      partTitle: split.title,
+      partProgress: "PART " + (pIdx + 1) + " / " + parts.length,
+      answeredText: partAnswered + " / " + curPart.items.length,
+      partQuestions,
+      progressPercent: Math.round((totalAnswered / total) * 100),
+      hasPrevPart: pIdx > 0,
+      prevPart: () => this.prevPart(),
+      nextPart: () => this.nextPart(),
+      nextLabel: isLastPart ? "결과 보기" : "다음 파트 →",
+
+      score,
+      resultTitle,
+      reviewList,
+      retry: () => this.retry()
+    };
+  }
+}
+</script>
+</body>
+</html>
