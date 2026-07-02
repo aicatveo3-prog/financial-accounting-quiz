@@ -94,7 +94,9 @@ export default function WorksheetScreen(props) {
         </div>
 
         <div style={css('flex: 1; padding: 4px 14px 16px;')}>
-          <div style={css('background: #fff; border-radius: 20px; box-shadow: 0 6px 20px rgba(30,40,70,.06); overflow: hidden;')}>
+          {/* No overflow:hidden here so a blank's dropdown can extend past the
+              card edges; dropClamp keeps it inside the viewport. */}
+          <div style={css('background: #fff; border-radius: 20px; box-shadow: 0 6px 20px rgba(30,40,70,.06);')}>
             <div style={css('padding: 18px 18px 14px;')}>
               <div style={css('display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px;')}>
                 <span style={css('background: #EDEAFB; color: #4338CA; padding: 3px 9px; border-radius: 7px; font-size: 10.5px; font-weight: 800;')}>{wSub}</span>
