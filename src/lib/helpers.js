@@ -104,6 +104,18 @@ export function mdToHtml(md) {
       i++
       continue
     }
+    if (t.startsWith('> ')) {
+      const items = []
+      while (i < lines.length && lines[i].trim().startsWith('> ')) {
+        items.push(lines[i].trim().replace(/^>\s+/, ''))
+        i++
+      }
+      html +=
+        '<blockquote style="margin:8px 0;padding:6px 12px;border-left:3px solid #CDEBD8;background:#F7FAF8;color:#2C3140;font-size:12px;line-height:1.6;border-radius:0 8px 8px 0;">' +
+        items.map(inline).join('<br/>') +
+        '</blockquote>'
+      continue
+    }
     if (t.startsWith('- ') || t.startsWith('• ')) {
       const items = []
       while (i < lines.length) {
